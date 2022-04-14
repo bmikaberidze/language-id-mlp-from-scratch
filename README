@@ -1,17 +1,16 @@
-
 # Language Detection with Deep Neural Network model
 
 For the language detection task, I used an approach given on [this](https://towardsdatascience.com/deep-neural-network-language-identification-ae1c158f6a7d) page
 I used their code and [dataset](https://downloads.tatoeba.org/exports/sentences.csv) as the starting point of my project.
 The main idea is to train a deep neural network with bag-of-word n-gram frequencies of sentences.
 
-#### Preprocessing
+### Preprocessing
 Preprocessing contains three main steps:
 - Filtering dataset by sentence length and language and selecting the particular number of sentences for each language. 
 - Splitting dataset into training, validation, and testing sub-datasets.
 - Generating an n-gram features matrix with the help of the bag-of-words method.
 
-#### modeling
+### modeling
 
 The next step is to find a good fit for the neural network architecture and hyper-parameters. While tuning, the models are defined with various hidden layers and hyper-parameters, then trained and validated on appropriate datasets. Lastly, the most successful model is evaluated with a testing dataset. 
 
