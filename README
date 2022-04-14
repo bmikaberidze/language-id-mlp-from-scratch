@@ -1,0 +1,30 @@
+
+# Language Detection with Deep Neural Network model
+
+For the language detection task, I used an approach given on [this](https://towardsdatascience.com/deep-neural-network-language-identification-ae1c158f6a7d) page
+I used their code and [dataset](https://downloads.tatoeba.org/exports/sentences.csv) as the starting point of my project.
+The main idea is to train a deep neural network with bag-of-word n-gram frequencies of sentences.
+
+#### Preprocessing
+Preprocessing contains three main steps:
+- Filtering dataset by sentence length and language and selecting the particular number of sentences for each language. 
+- Splitting dataset into training, validation, and testing sub-datasets.
+- Generating an n-gram features matrix with the help of the bag-of-words method.
+
+#### modeling
+
+The next step is to find a good fit for the neural network architecture and hyper-parameters. While tuning, the models are defined with various hidden layers and hyper-parameters, then trained and validated on appropriate datasets. Lastly, the most successful model is evaluated with a testing dataset. 
+
+The project doesn't use any framework for building or training a DNN. I implemented feed-forward and backpropagation processes from scratch to demonstrate an understanding of neural networks. For derivative equations, I took a little help from my brother, who's a mathematics Ph.D. student.
+
+In a neural network model, "ReLU" is used as an activation function and "softmax" as a classifier. The loss is calculated with the "cross-entropy" function.
+
+While training, I'm using techniques like:
+- L2 regularization
+- Adam optimization
+- Automatic learning rate decrease through epochs
+
+===================================================
+The model is trained on 6 languages, and the prediction accuracy is 98.12%
+
+The preprocessing, model training, and tuning configurations can be managed in the "src/config.json" file, and the processes can be started from the "launcher.ipynb" file.
