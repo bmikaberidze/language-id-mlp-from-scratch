@@ -24,7 +24,7 @@ While training, I'm using techniques like:
 - Adam optimization
 - Automatic learning rate decrease through epochs
 
-===================================================
+--------------------------------------------------------------------------
 The model is trained on 6 languages, and the prediction accuracy is 98.12%
 
 The preprocessing, model training, and tuning configurations can be managed in the "src/config.json" file, and the processes can be started from the "launcher.ipynb" file.
