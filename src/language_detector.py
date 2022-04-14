@@ -98,7 +98,7 @@ class LanguageDetector():
     # ---------------------------------------------------------------------------------------------------------------------
     def _split_dataset(self, data):
         """
-        Split dataset as trainin, validation and testing datasets
+        Split dataset into training, validation and testing sub-datasets
         """
 
         #Get dataset splitting config
@@ -121,7 +121,7 @@ class LanguageDetector():
     # ---------------------------------------------------------------------------------------------------------------------
     def _generate_features(self):
         """
-        Generate features from datasets
+        Generate n-gram bag-of-words features from datasets
         """
 
         #Get vocabulary of common trigrams by language
@@ -364,13 +364,13 @@ class LanguageDetector():
         # self.model.fit(x, y, epochs=epochs, batch_size=batch_size)
 
     # ---------------------------------------------------------------------------------------------------------------------
-    def tunning(self):
+    def tuning(self):
         """
-        Hyper-parameter tunning. train on different parameters and validate
+        Hyper-parameter tuning. train on different parameters and validate
         """
 
-        #Get model tunning config
-        tun = self.config.model.tunning
+        #Get model tuning config
+        tun = self.config.model.tuning
 
         self.tunnin_results = []
 

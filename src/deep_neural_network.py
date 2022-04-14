@@ -94,10 +94,10 @@ class DNN:
 
         if self.epochs > epoch_indx:
 
-            #Grid search. Decreasing lerning rate through epoches
-            self.learn_rate = self.learn_rate / (10 if epoch_indx else 1)
+            #Decreasing lerning rate through epoches
+            self.learn_rate = self.learn_rate / (5 if epoch_indx else 1)
 
-            # print(f'Epoch - {epoch_indx + 1}/{self.epochs} - Learning rate: {self.learn_rate} - - - - - - - - - - - - - - # ')
+            print(f'Epoch - {epoch_indx + 1}/{self.epochs} - Learning rate: {self.learn_rate} - - - - - - - - - - - - - - # ')
 
             #Count of input veqtors
             inputs_cnt = inputs.shape[0]
@@ -130,10 +130,10 @@ class DNN:
         predict_batch = self._feed_forward(inputs_batch)
 
         #Calculate loss and its derivative with predicted vectors batch
-        # self.loss   = self._calculate_loss(predict_batch, targets_batch)
-        # loss_deriv  = self._loss_deriv(predict_batch, targets_batch)
-        self.loss   = self._catch_warning(self._calculate_loss, [predict_batch, targets_batch])
-        loss_deriv  = self._catch_warning(self._loss_deriv,     [predict_batch, targets_batch])
+        self.loss   = self._calculate_loss(predict_batch, targets_batch)
+        loss_deriv  = self._loss_deriv(predict_batch, targets_batch)
+        # self.loss   = self._catch_warning(self._calculate_loss, [predict_batch, targets_batch])
+        # loss_deriv  = self._catch_warning(self._loss_deriv,     [predict_batch, targets_batch])
 
         #Back propagate gradient and update weights        
         self._back_propagate(loss_deriv)
@@ -148,7 +148,7 @@ class DNN:
 
         #Print batch loss mean
         self.index += 1
-        print(f'{self.index}. Loss: {self.mean_loss}')
+        # print(f'{self.index}. Loss: {self.mean_loss}')
         
     # ---------------------------------------------------------------------------------------------------------------------
     def _feed_forward(self, input_batch, layer_indx = 0):
@@ -216,7 +216,7 @@ class DNN:
         try:
             value = callback(*params)
         except RuntimeWarning:
-            warnings.filterwarnings("once")
+            warnings.filterwarnings("ignore")
             value = callback(*params)
             print(value, *params)
 

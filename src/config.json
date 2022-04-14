@@ -1,0 +1,59 @@
+{
+    "languages": ["deu", "eng", "fra", "ita", "por", "spa"],
+
+    "preprocessing": {
+
+        "filter": {           
+            "sentence": {
+                "count": 30000,
+                "len": {
+                    "min": 20,
+                    "max": 200
+                }
+            }
+        },
+
+        "split": {
+            "train": 70,
+            "valid": 20,
+            "test": 10
+        },
+
+        "features": {
+            "max": 200,
+            "ngrams": {
+                "min": 3,
+                "max": 3
+            }
+        }
+    },
+
+    "model": {
+
+        "activation": "relu",
+        "classifier": "softmax",
+        "hidden_layers": [ 500, 500, 250 ],
+
+        "train": {
+            "epochs": 4,
+            "batch_size": 100,
+            "learn_rate": 0.0005,
+            "optim_rate": 0.5,
+            "regul_rate": 0,
+            "validate": false
+        },
+
+        "tuning": {
+
+            "hidden_layers": [
+                [ 500, 500, 250 ],
+                [ 600, 400, 200 ]
+            ],
+            "epochs": [ 3, 4, 5 ],
+            "batch_sizes": [ 50, 100, 250, 500 ],
+            "learn_rates": [ 0.001, 0.0005 ],
+            "optim_rates": [ 0.25, 0.5, 0.75 ],
+            "regul_rates": [ 0, 0.5, 0.005 ]
+        }
+    }
+}
