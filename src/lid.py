@@ -1,6 +1,7 @@
-from deep_neural_network import DNN
+from src.deep_neural_network import DNN
 
 import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -9,20 +10,19 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from keras.utils import np_utils
-
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import accuracy_score, confusion_matrix
 
-class LanguageDetector():
+class LanguageIdentificationModel():
 
-    #Configuration file path
-    config_file             = './config.json' 
+    # Root and configuration paths (resolved relative to this file)
+    _root                   = Path(__file__).resolve().parent.parent
+    config_file             = _root / 'config' / 'config.json'
 
     #Folder paths
-    data_path               = '../data'         
-    figures_path            = '../figures'   
+    data_path               = _root / 'data'
+    figures_path            = _root / 'figures'
 
     #Raw dataset colamn names
     LANG_COL                = 'lang'
@@ -42,7 +42,7 @@ class LanguageDetector():
 
     #Evaluated model image names
     loss_plot_filename      = 'loss'
-    conf_matrix_filename    = 'conf_matrix'  
+    conf_matrix_filename    = 'confusion_matrix'
 
     # ---------------------------------------------------------------------------------------------------------------------
     def __init__(self):
@@ -199,12 +199,11 @@ class LanguageDetector():
             features[l] = trigrams 
             features_set.update(trigrams)
 
-        #create vocabulary list using feature set
-        vocab = dict()
-        for i,f in enumerate(features_set):
-            vocab[f]=i
-        
-        return vocab, features_set
+        #create ordered vocabulary and aligned feature list
+        feature_list = sorted(features_set)
+        vocab = {f: i for i, f in enumerate(feature_list)}
+
+        return vocab, feature_list
     
     # ---------------------------------------------------------------------------------------------------------------------
     def _get_corp_feature_names(self, corpus, max_features = 0):
@@ -531,7 +530,17 @@ class LanguageDetector():
         
         #Represent y labels as on hot encodings
         y_encoded = self._encoder.transform(y)
-        y_dummy = np_utils.to_categorical(y_encoded)
+
+        def to_categorical(y, num_classes=None):
+            y = np.asarray(y, dtype=int)
+            if num_classes is None:
+                num_classes = y.max() + 1
+
+            one_hot = np.zeros((len(y), num_classes))
+            one_hot[np.arange(len(y)), y] = 1
+            return one_hot
+
+        y_dummy = to_categorical(y_encoded, len(self.config.languages))
         
         return y_dummy
 

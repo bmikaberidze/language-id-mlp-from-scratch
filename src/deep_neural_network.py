@@ -1,5 +1,5 @@
 import numpy as np
-from dense_layer import DL
+from src.dense_layer import DL
 import matplotlib.pyplot as plt
 
 import warnings

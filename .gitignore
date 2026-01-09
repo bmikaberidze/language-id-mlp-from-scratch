@@ -1,4 +1,7 @@
 figures/*
+!figures/_loss.png
+!figures/_confusion_matrix.png
+
 data/*
 src/dnn/*
 
@@ -7,3 +10,7 @@ __pycache__
 
 .ipynb_checkpoints
 **/.ipynb_checkpoints
+
+.venv/
+
+.DS_Store

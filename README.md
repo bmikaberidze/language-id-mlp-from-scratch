@@ -1,29 +1,130 @@
-# Language Detection with Deep Neural Network model
+# Language Identification with a Neural Network Implemented from Scratch
 
-For the language detection task, I used an approach given on [this](https://towardsdatascience.com/deep-neural-network-language-identification-ae1c158f6a7d) page
-I used their code and [dataset](https://downloads.tatoeba.org/exports/sentences.csv) as the starting point of my project.
-The main idea is to train a deep neural network with bag-of-word n-gram frequencies of sentences.
+Authors: **Beso Mikaberidze**, **Guram Mikaberidze**
 
-### Preprocessing
-Preprocessing contains three main steps:
-- Filtering dataset by sentence length and language and selecting the particular number of sentences for each language. 
-- Splitting dataset into training, validation, and testing sub-datasets.
-- Generating an n-gram features matrix with the help of the bag-of-words method.
+This project implements a multiclass language identification system based on a deep feed-forward neural network, built entirely from scratch without using any deep learning frameworks (e.g., PyTorch, TensorFlow, Keras).
 
-### modeling
+This project is not intended as a production-ready language identifier, but as a deep dive into neural network mechanics, such as forward pass, backpropagation, optimization, and regularization.
 
-The next step is to find a good fit for the neural network architecture and hyper-parameters. While tuning, the models are defined with various hidden layers and hyper-parameters, then trained and validated on appropriate datasets. Lastly, the most successful model is evaluated with a testing dataset. 
+## Contents
+- [Overview](#overview)
+  - [Problem Formulation](#problem-formulation)
+  - [Dataset and Preprocessing](#dataset-and-preprocessing)
+  - [Model Architecture and Training](#model-architecture-and-training)
+  - [Experimental Setup and Results](#experimental-setup-and-results)
+- [Usage](#usage)
+- [Contact](#contact)
 
-The project doesn't use any framework for building or training a DNN. I implemented feed-forward and backpropagation processes from scratch to demonstrate an understanding of neural networks. For derivative equations, I took a little help from my brother, who's a mathematics Ph.D. student.
+---
 
-In a neural network model, "ReLU" is used as an activation function and "softmax" as a classifier. The loss is calculated with the "cross-entropy" function.
+## Overviev
 
-While training, I'm using techniques like:
-- L2 regularization
-- Adam optimization
-- Automatic learning rate decrease through epochs
+### Problem Formulation
 
---------------------------------------------------------------------------
-The model is trained on 6 languages, and the prediction accuracy is 98.12%
+- **Task:** Multiclass language identification  
+- **Input:** A single sentence represented as a fixed-length character n-gram frequency vector
+- **Output:** One of *N* language labels  
+- **Model type:** Fully connected neural network (MLP)  
 
-The preprocessing, model training, and tuning configurations can be managed in the "src/config.json" file, and the processes can be started from the "launcher.ipynb" file.
+
+### Dataset and Preprocessing
+
+The model is trained using sentence-level data from the publicly available [**Tatoeba sentence dataset**](https://downloads.tatoeba.org/exports/sentences.csv).
+
+Preprocessing consists of the following steps:
+
+1. **Dataset filtering and splitting**
+   - Selection of a fixed number of languages
+   - Filtering by sentence length
+   - Balancing the number of samples per language
+   - Split into train, validation, and test sets
+
+2. **Feature extraction**
+   - Construction of a character n-gram vocabulary from the most frequent n-grams observed in each language  
+   (ensuring that features capture language-specific orthographic patterns)
+   - Transformation of sentences into vocabulary size n-gram frequency vectors,  
+   followed by min–max normalization that uses training-set statistics
+
+
+### Model Architecture and Training
+
+The model is a **deep feed-forward neural network**, where:
+
+- Hidden layers use **ReLU** activation
+- The output layer uses **Softmax** for multiclass classification
+- The loss function is **categorical cross-entropy**
+
+#### Implemented from Scratch
+
+No deep learning frameworks are used; all gradient computations and training logic are implemented manually:
+
+- Forward pass
+- Backpropagation
+- Loss evaluation
+- Gradient computation
+- Parameter updates
+- Optimization & Regularization
+  - Adam optimizer
+  - L2 regularization
+  - Linear learning rate scheduling across epochs
+
+
+### Experimental Setup and Results
+
+- Number of languages: **6**  
+- Evaluation metric: **Accuracy**  
+- Test result: **98.12%**
+
+Model selection is performed based on validation performance while tuning:
+- number of hidden layers
+- hidden layer sizes
+- learning rate
+- regularization strength
+
+---
+
+## Usage
+
+### Setup
+
+Clone the repository
+```
+git clone https://github.com/besom/language-id-mlp-from-scratch.git
+cd language-id-mlp-from-scratch
+```
+
+Set up the virtual environment
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Configure and Run
+
+All preprocessing, model, and training parameters are configurable via:
+  ```
+  config/config.json
+  ```
+
+Download the dataset (once) using:
+  ```
+  python -m src.scripts.download_dataset
+  ```
+
+Run the full preprocessing, training, and evaluation pipeline using:
+  ```
+  python -m src.scripts.run
+  ```
+
+Alternatively, experiments can be executed interactively via:
+  ```
+  notebooks/run.ipynb
+  ```
+
+---
+
+## Contact
+
+Beso Mikaberidze - beso.mikaberidze@gmail.com  
+Guram Mikaberidze - guram.mikaberidze@gmail.com
